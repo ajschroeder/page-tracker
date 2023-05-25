@@ -34,15 +34,15 @@ FROM python:3.11.2-slim-bullseye
 RUN apt-get update && \
     apt-get upgrade --yes
 
-RUN useradd --create-home realpython
-USER realpython
-WORKDIR /home/realpython
+RUN useradd --create-home appuser
+USER appuser
+WORKDIR /home/appuser
 
-ENV VIRTUALENV=/home/realpython/venv
+ENV VIRTUALENV=/home/appuser/venv
 RUN python3 -m venv $VIRTUALENV
 ENV PATH="$VIRTUALENV/bin:$PATH"
 
-COPY --from=builder /home/realpython/dist/page_tracker*.whl /home/realpython
+COPY --from=builder /home/appuser/dist/page_tracker*.whl /home/appuser
 
 RUN python -m pip install --upgrade pip setuptools && \
     python -m pip install --no-cache-dir page_tracker*.whl
